@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IoT Analytics – Complete Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --accent2: #3fb950;
+    --accent3: #f0883e;
+    --accent4: #bc8cff;
+    --accent5: #ff7b72;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-dim: #6e7681;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* COVER */
+  .cover {
+    background: linear-gradient(135deg, #0d1117 0%, #1a1f3a 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(88,166,255,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(63,185,80,0.06) 0%, transparent 50%);
+  }
+  .cover-tag {
+    display: inline-block;
+    background: rgba(88,166,255,0.15);
+    border: 1px solid rgba(88,166,255,0.35);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 46px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    position: relative;
+    background: linear-gradient(90deg, #e6edf3, #58a6ff, #3fb950);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cover p {
+    color: var(--text-muted);
+    font-size: 14px;
+    position: relative;
+  }
+  .toc-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 28px;
+    position: relative;
+  }
+  .toc-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .toc-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* LAYOUT */
+  .wrapper { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* MODULE HEADER */
+  .module {
+    margin-bottom: 56px;
+  }
+  .module-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .module-num {
+    background: var(--accent);
+    color: #000;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .module-num.green { background: var(--accent2); }
+  .module-num.orange { background: var(--accent3); }
+  .module-num.purple { background: var(--accent4); }
+  .module-num.red { background: var(--accent5); }
+
+  .module > h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+
+  /* SECTION */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: rgba(88,166,255,0.15); }
+  .icon-green { background: rgba(63,185,80,0.15); }
+  .icon-orange { background: rgba(240,136,62,0.15); }
+  .icon-purple { background: rgba(188,140,255,0.15); }
+  .icon-red { background: rgba(255,123,114,0.15); }
+
+  .section-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-body {
+    padding: 18px 20px;
+  }
+
+  /* DEFINITION BOX */
+  .def-box {
+    background: rgba(88,166,255,0.06);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    color: #c9d1d9;
+  }
+  .def-box.green { background: rgba(63,185,80,0.06); border-left-color: var(--accent2); }
+  .def-box.orange { background: rgba(240,136,62,0.06); border-left-color: var(--accent3); }
+  .def-box.purple { background: rgba(188,140,255,0.06); border-left-color: var(--accent4); }
+  .def-box.red { background: rgba(255,123,114,0.06); border-left-color: var(--accent5); }
+
+  /* BULLET LIST */
+  ul.notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  ul.notes-list li {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #c9d1d9;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+  }
+  ul.notes-list li:last-child { border-bottom: none; }
+  ul.notes-list li::before {
+    content: '▸';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  ul.notes-list.green li::before { color: var(--accent2); }
+  ul.notes-list.orange li::before { color: var(--accent3); }
+  ul.notes-list.purple li::before { color: var(--accent4); }
+  ul.notes-list.red li::before { color: var(--accent5); }
+
+  /* NUMBERED LIST */
+  ol.notes-ol {
+    padding-left: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+  ol.notes-ol li {
+    counter-increment: step;
+    display: flex;
+    gap: 12px;
+    padding: 7px 0;
+    font-size: 14px;
+    color: #c9d1d9;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+  }
+  ol.notes-ol li:last-child { border-bottom: none; }
+  ol.notes-ol li::before {
+    content: counter(step);
+    background: rgba(88,166,255,0.2);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* TABLE */
+  .notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-top: 4px;
+  }
+  .notes-table thead tr {
+    background: rgba(88,166,255,0.1);
+  }
+  .notes-table th {
+    padding: 9px 14px;
+    text-align: left;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .notes-table td {
+    padding: 9px 14px;
+    color: #c9d1d9;
+    border-bottom: 1px solid rgba(48,54,61,0.6);
+    vertical-align: top;
+  }
+  .notes-table tr:last-child td { border-bottom: none; }
+  .notes-table tr:hover td { background: rgba(48,54,61,0.3); }
+
+  /* FORMULA */
+  .formula {
+    font-family: 'Source Code Pro', monospace;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #a5d6ff;
+    margin: 6px 0;
+  }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .badge-blue { background: rgba(88,166,255,0.2); color: var(--accent); }
+  .badge-green { background: rgba(63,185,80,0.2); color: var(--accent2); }
+  .badge-orange { background: rgba(240,136,62,0.2); color: var(--accent3); }
+  .badge-purple { background: rgba(188,140,255,0.2); color: var(--accent4); }
+  .badge-red { background: rgba(255,123,114,0.2); color: var(--accent5); }
+
+  /* GRID */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width:600px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* CALLOUT */
+  .callout {
+    background: rgba(240,136,62,0.08);
+    border: 1px solid rgba(240,136,62,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    color: #c9d1d9;
+    margin-top: 10px;
+  }
+  .callout strong { color: var(--accent3); }
+
+  /* MINI CARD */
+  .mini-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .mini-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .mini-card p { font-size: 13px; color: var(--text-muted); }
+
+  /* SUBLABEL */
+  .sub-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 14px 0 6px;
+  }
+
+  strong.key { color: #e6edf3; font-weight: 700; }
+
+  /* QUESTIONS */
+  .q-box {
+    background: rgba(63,185,80,0.05);
+    border: 1px solid rgba(63,185,80,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 14px;
+  }
+  .q-box p { font-size: 12px; color: var(--accent2); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .q-box ol { padding-left: 18px; color: var(--text-muted); font-size: 13.5px; }
+  .q-box ol li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">IoT Analytics · JIIT Noida · Dr. Vikash</div>
+  <h1>Complete Study Notes</h1>
+  <p>Module 4: Data Collection, Processing & Exploration &nbsp;|&nbsp; Lecture 4: Predictive Modelling &nbsp;|&nbsp; Lecture 5: Feature Engineering</p>
+  <div class="toc-pills">
+    <a href="#m4" class="toc-pill">Module 4 – Data Collection</a>
+    <a href="#kinesis" class="toc-pill">Amazon Kinesis</a>
+    <a href="#lambda" class="toc-pill">AWS Lambda</a>
+    <a href="#athena" class="toc-pill">AWS Athena</a>
+    <a href="#processing" class="toc-pill">Data Processing</a>
+    <a href="#mapreduce" class="toc-pill">MapReduce</a>
+    <a href="#spark" class="toc-pill">Apache Spark</a>
+    <a href="#kafka" class="toc-pill">Kafka</a>
+    <a href="#rabbit" class="toc-pill">RabbitMQ</a>
+    <a href="#l4" class="toc-pill">Predictive Modelling</a>
+    <a href="#l5" class="toc-pill">Feature Engineering</a>
+  </div>
+</div>
+
+<div class="wrapper">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- MODULE 4 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="module" id="m4">
+  <div class="module-label"><span class="module-num">Module 4</span></div>
+  <h2>Data Collection, Processing &amp; Exploration</h2>
+
+  <!-- Data Collection -->
+  <div class="section" id="collection">
+    <div class="section-header">
+      <div class="section-icon icon-blue">📡</div>
+      <h3>Data Collection Techniques</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        Methods, tools, and processes used to gather raw data from different sources — sensors, applications, logs, user interactions, devices, or external systems — for further storage, processing, and analysis. In cloud environments (like AWS), these techniques involve <strong>streaming, batch ingestion, transformation, and querying</strong> of data.
+      </div>
+      <p class="sub-label">Key Characteristics</p>
+      <table class="notes-table">
+        <thead><tr><th>Characteristic</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-blue">Source Diversity</span></td><td>IoT devices, applications, databases, APIs, logs, or streams</td></tr>
+          <tr><td><span class="badge badge-green">Collection Mode</span></td><td>Real-time (streaming) vs. batch (periodic uploads)</td></tr>
+          <tr><td><span class="badge badge-orange">Transformation</span></td><td>Raw data often needs to be filtered, cleaned, or structured</td></tr>
+          <tr><td><span class="badge badge-purple">Storage Destination</span></td><td>S3, databases, or data warehouses</td></tr>
+          <tr><td><span class="badge badge-red">Analysis Readiness</span></td><td>Prepared for querying, dashboards, or machine learning</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Amazon Kinesis -->
+  <div class="section" id="kinesis">
+    <div class="section-header">
+      <div class="section-icon icon-orange">🌊</div>
+      <h3>Amazon Kinesis</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box orange">
+        A <strong>fully managed AWS service</strong> for real-time data streaming and processing. Enables developers to ingest, analyze, and respond to large volumes of streaming data from IoT devices, application logs, social media feeds, and video streams.
+      </div>
+
+      <p class="sub-label">Key Components</p>
+      <table class="notes-table">
+        <thead><tr><th>Component</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong class="key">Kinesis Data Streams</strong></td><td>Captures and processes real-time data streams at scale</td></tr>
+          <tr><td><strong class="key">Kinesis Data Firehose</strong></td><td>Delivers streaming data to destinations like S3, Redshift, or Elasticsearch</td></tr>
+          <tr><td><strong class="key">Kinesis Data Analytics</strong></td><td>Analyzes streaming data using SQL or Apache Flink in real time</td></tr>
+          <tr><td><strong class="key">Kinesis Video Streams</strong></td><td>Ingests and processes video streams for analytics and machine learning</td></tr>
+        </tbody>
+      </table>
+
+      <p class="sub-label">How It Works</p>
+      <ol class="notes-ol">
+        <li><strong class="key">Data Ingestion</strong> – Collects data from sensors, applications, or logs in formats like JSON or binary</li>
+        <li><strong class="key">Sharding and Scaling</strong> – Splits incoming data into shards for parallel processing and fault tolerance; scales horizontally as needed</li>
+        <li><strong class="key">Processing and Buffering</strong> – Applies transformations like filtering or aggregation before storing/forwarding</li>
+        <li><strong class="key">Data Access and Delivery</strong> – Makes processed data available via APIs or delivers to other AWS services</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- AWS Lambda -->
+  <div class="section" id="lambda">
+    <div class="section-header">
+      <div class="section-icon icon-green">λ</div>
+      <h3>AWS Lambda</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box green">
+        A <strong>serverless computing service</strong> that lets you run code in response to events without provisioning or managing servers.
+      </div>
+
+      <p class="sub-label">Core Features</p>
+      <ul class="notes-list green">
+        <li><strong class="key">Event-driven execution</strong> – Automatically triggers functions in response to events from S3, DynamoDB, API Gateway, or Kinesis</li>
+        <li><strong class="key">Fully managed infrastructure</strong> – AWS handles server provisioning, scaling, patching, and monitoring</li>
+        <li><strong class="key">Automatic scaling</strong> – Functions scale up or down based on demand, even down to zero when idle</li>
+        <li><strong class="key">Flexible runtimes</strong> – Supports Node.js, Python, Java, Go, .NET, Ruby, and custom runtimes</li>
+        <li><strong class="key">MicroVM isolation</strong> – Uses Firecracker microVMs for secure, fast, and lightweight execution environments</li>
+      </ul>
+
+      <p class="sub-label">How It Works</p>
+      <ol class="notes-ol">
+        <li><strong class="key">Upload Code</strong> – Package code as a ZIP file or container image and upload to Lambda</li>
+        <li><strong class="key">Define Triggers</strong> – Set up event sources like HTTP requests, file uploads, or database changes</li>
+        <li><strong class="key">Configure Runtime &amp; Permissions</strong> – Choose a runtime, allocate memory, and assign IAM roles</li>
+        <li><strong class="key">Execute &amp; Scale Automatically</strong> – Lambda runs function when triggered and scales based on traffic</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- AWS Athena -->
+  <div class="section" id="athena">
+    <div class="section-header">
+      <div class="section-icon icon-purple">🔍</div>
+      <h3>AWS Athena</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box purple">
+        A <strong>serverless, interactive query service</strong> that lets you analyze data directly in Amazon S3 using standard SQL or Apache Spark.
+      </div>
+      <ul class="notes-list purple">
+        <li><strong class="key">Serverless architecture</strong> – No infrastructure to manage; pay only for queries run</li>
+        <li><strong class="key">SQL and Apache Spark support</strong> – Run ad-hoc queries using SQL or build analytics with Spark</li>
+        <li><strong class="key">Fast performance</strong> – Queries run in parallel and scale automatically for large datasets</li>
+        <li><strong class="key">Integrated with AWS Glue</strong> – Use Glue Data Catalog for metadata management and ETL operations</li>
+        <li><strong class="key">Notebook interface</strong> – Develop Spark applications using Python in a simplified notebook experience</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Data Processing -->
+  <div class="section" id="processing">
+    <div class="section-header">
+      <div class="section-icon icon-blue">⚙️</div>
+      <h3>Data Processing Paradigms</h3>
+    </div>
+    <div class="section-body">
+      <div class="two-col">
+        <div class="mini-card">
+          <h4>📦 Batch Processing</h4>
+          <p>Collects data over a period of time, then processes it all at once periodically.<br><br>
+          <strong style="color:#58a6ff">Used for:</strong> Payroll systems, data warehousing (ETL), end-of-day reporting, large-scale data transformation<br><br>
+          <strong style="color:#ff7b72">Challenges:</strong> Not suitable for real-time; potential data staleness if intervals are long</p>
+        </div>
+        <div class="mini-card">
+          <h4>🌊 Stream Processing</h4>
+          <p>Continuously analyzes data as it arrives in real-time or near-real-time, in small chunks or individual records.<br><br>
+          <strong style="color:#58a6ff">Used for:</strong> Fraud detection, monitoring systems, live dashboards, IoT applications<br><br>
+          <strong style="color:#ff7b72">Challenges:</strong> Managing state, reliability, out-of-order data handling</p>
+        </div>
+      </div>
+
+      <div class="section" style="margin-top:14px; margin-bottom:0;">
+        <div class="section-header">
+          <div class="section-icon icon-orange">📬</div>
+          <h3>Message Queue</h3>
+        </div>
+        <div class="section-body">
+          <div class="def-box orange">
+            An <strong>asynchronous communication protocol</strong> where messages are stored in a queue until processed by a consumer. Decouples sender and receiver, allowing independent operation.
+          </div>
+          <ul class="notes-list orange">
+            <li>Microservices architectures for decoupling services</li>
+            <li>Task scheduling and background job processing</li>
+            <li>Event-driven systems</li>
+            <li>Ensuring reliable message delivery</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hadoop / MapReduce -->
+  <div class="section" id="mapreduce">
+    <div class="section-header">
+      <div class="section-icon icon-orange">🐘</div>
+      <h3>Hadoop &amp; MapReduce</h3>
+    </div>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <p class="sub-label">Hadoop</p>
+          <div class="def-box orange">
+            An open-source framework for <strong>distributed storage and processing</strong> of large datasets using clusters of commodity hardware. Enables scalable, fault-tolerant data management.
+          </div>
+        </div>
+        <div>
+          <p class="sub-label">MapReduce</p>
+          <div class="def-box orange">
+            A programming model and processing framework used to handle large-scale data across distributed clusters. Splits tasks into smaller units, processes them in parallel, and aggregates results efficiently. Based on <strong>Java</strong>.
+          </div>
+        </div>
+      </div>
+
+      <p class="sub-label">Core Concepts</p>
+      <ul class="notes-list orange">
+        <li><strong class="key">Map Task</strong> – Takes a set of data and converts it into key/value pair tuples (processes input data, breaks into small chunks)</li>
+        <li><strong class="key">Reduce Task</strong> – Takes map output, combines data tuples into a smaller set of tuples; always performed after map job</li>
+        <li><strong class="key">Shuffle Stage</strong> – Intermediate stage between Map and Reduce (sorting/grouping)</li>
+        <li><strong class="key">Mappers &amp; Reducers</strong> – The data processing primitives under MapReduce model</li>
+      </ul>
+
+      <p class="sub-label">Algorithm Stages</p>
+      <ol class="notes-ol">
+        <li><strong class="key">Map Stage</strong> – Input data (from HDFS) passed to mapper function line by line; mapper processes and creates small data chunks</li>
+        <li><strong class="key">Shuffle Stage</strong> – Sorts and groups mapped key/value pairs</li>
+        <li><strong class="key">Reduce Stage</strong> – Reducer processes data from mapper; produces final output stored in HDFS</li>
+      </ol>
+
+      <div class="callout">
+        <strong>Key Advantage:</strong> Easy to scale data processing over multiple computing nodes. Scaling to hundreds or thousands of machines in a cluster is merely a configuration change — making it highly attractive.
+      </div>
+
+      <p class="sub-label">Design Patterns / Applications</p>
+      <div class="two-col" style="margin-top:4px">
+        <ul class="notes-list orange">
+          <li>Index and Search</li>
+          <li>Classification</li>
+          <li>Recommendation (e.g., Sort)</li>
+          <li>Analytics (e.g., Join, Selection)</li>
+        </ul>
+        <ul class="notes-list orange">
+          <li>Summarization (e.g., Inverted Index)</li>
+          <li>Implemented by Google &amp; Apache Hadoop</li>
+          <li>Works with HDFS, Pig, Hive, HBase</li>
+          <li>Large Scale Distributed Model</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apache Spark -->
+  <div class="section" id="spark">
+    <div class="section-header">
+      <div class="section-icon icon-red">⚡</div>
+      <h3>Apache Spark Streaming for IoT</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box red">
+        A powerful extension of the Apache Spark framework enabling <strong>real-time data processing of streaming data</strong>. Handles live data streams from Kafka, Flume, Twitter, or TCP sockets using Spark's core APIs. <em>Scalable, fault-tolerant, second-scale latencies.</em>
+      </div>
+
+      <p class="sub-label">How Spark Streaming Works</p>
+      <ol class="notes-ol">
+        <li>Chops up data streams into <strong>batches of a few seconds</strong></li>
+        <li>Treats each batch as <strong>RDDs</strong> (Resilient Distributed Datasets) and processes using RDD operations</li>
+        <li>Processed results are pushed out in batches</li>
+      </ol>
+
+      <p class="sub-label">Key Concepts</p>
+      <ul class="notes-list red">
+        <li><strong class="key">Discretized Streams (DStreams)</strong> – Continuous data streams broken into micro-batches; each treated as an RDD</li>
+        <li><strong class="key">Input Sources</strong> – Apache Kafka, Flume, HDFS, Sockets, Custom data sources</li>
+        <li><strong class="key">Output Destinations</strong> – HDFS, Databases, Dashboards, External systems</li>
+        <li><strong class="key">RDD (Resilient Distributed Dataset)</strong> – Core data structure; fault-tolerant, distributed collection</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Kafka -->
+  <div class="section" id="kafka">
+    <div class="section-header">
+      <div class="section-icon icon-purple">📨</div>
+      <h3>Apache Kafka</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box purple">
+        A <strong>publish-subscribe messaging system</strong> rethought as a distributed commit log. Characteristics: <em>Fast, Scalable, Durable, Distributed</em>.
+      </div>
+
+      <p class="sub-label">Why Is Kafka So Fast?</p>
+      <ul class="notes-list purple">
+        <li><strong class="key">Fast Writes</strong> – While Kafka persists all data to disk, essentially all writes go to the page cache</li>
+        <li><strong class="key">Fast Reads</strong> – Very efficient to transfer data from page cache to a network socket</li>
+        <li><strong class="key">Combined Effect</strong> – On a Kafka cluster where consumers are mostly caught up, there is <em>no read activity on disks</em> — serving data entirely from cache</li>
+      </ul>
+
+      <p class="sub-label">Architecture Components</p>
+      <table class="notes-table">
+        <thead><tr><th>Component</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong class="key">Producer</strong></td><td>Publishes messages to a Kafka topic</td></tr>
+          <tr><td><strong class="key">Broker</strong></td><td>Server that stores and serves messages; multiple brokers form a Kafka cluster</td></tr>
+          <tr><td><strong class="key">Consumer</strong></td><td>Reads/subscribes to messages from topics</td></tr>
+          <tr><td><strong class="key">ZooKeeper</strong></td><td>Manages and shares state among brokers, producers, and consumers</td></tr>
+          <tr><td><strong class="key">Partition / Shard</strong></td><td>Topics split into partitions for parallel processing; each partition has replicas</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RabbitMQ -->
+  <div class="section" id="rabbit">
+    <div class="section-header">
+      <div class="section-icon icon-green">🐇</div>
+      <h3>RabbitMQ</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box green">
+        A <strong>lightweight, open-source message broker</strong> that facilitates communication between different parts of a system by passing messages through queues. Built on <strong>AMQP</strong> (Advanced Message Queuing Protocol). Uses <strong>FIFO</strong> (First In, First Out) message processing.
+      </div>
+
+      <p class="sub-label">Core Concepts</p>
+      <table class="notes-table">
+        <thead><tr><th>Concept</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong class="key">Producer</strong></td><td>Sends messages to a queue</td></tr>
+          <tr><td><strong class="key">Queue</strong></td><td>Stores messages until they are processed</td></tr>
+          <tr><td><strong class="key">Consumer</strong></td><td>Retrieves and processes messages from the queue</td></tr>
+          <tr><td><strong class="key">Exchange</strong></td><td>Routes messages to queues based on rules (bindings). Types: Direct, Topic, Fanout</td></tr>
+          <tr><td><strong class="key">Binding</strong></td><td>Connects exchanges to queues with routing logic</td></tr>
+        </tbody>
+      </table>
+
+      <p class="sub-label">Key Properties</p>
+      <ul class="notes-list green">
+        <li>Message-oriented middleware implementing AMQP</li>
+        <li>Developed and maintained by Apache Software Foundation</li>
+        <li>Supports multiple messaging protocols</li>
+        <li>Enables building distributed systems with asynchronous messaging</li>
+        <li>Widely used for asynchronous, decoupled, and reliable messaging in distributed apps</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- end module 4 -->
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- LECTURE 4: PREDICTIVE MODELLING -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="module" id="l4">
+  <div class="module-label"><span class="module-num green">Lecture 4</span></div>
+  <h2>Predictive Modelling (PdM)</h2>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">🎯</div>
+      <h3>What is Predictive Modelling?</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box green">
+        A technique that uses <strong>mathematical and computational methods</strong> to predict an event or outcome. Uses an equation-based model that describes the phenomenon, forecasting an outcome at some future state/time based on changes to model inputs. Model parameters explain how inputs influence outcomes.
+      </div>
+      <div class="callout">
+        <strong>Example:</strong> Predicting fuel efficiency based on a linear regression model of engine speed versus load.
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Requirements -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">📊</div>
+      <h3>Data Requirements for PdM Modeling</h3>
+    </div>
+    <div class="section-body">
+      <p style="color:var(--text-muted); font-size:14px; margin-bottom:14px;">Three main categories:</p>
+
+      <div class="section" style="margin-bottom:12px;">
+        <div class="section-header">
+          <div class="section-icon icon-blue">🎯</div>
+          <h3>1. Relevancy</h3>
+        </div>
+        <div class="section-body">
+          <ul class="notes-list">
+            <li>IoT deals with high volumes of data — challenging to identify which characteristics are actually relevant to the problem</li>
+            <li>For predicting motor failure, data must contain information related to motor operations</li>
+            <li>In large problem domains (like Predictive Maintenance), failures are often a composite of many components — better to design prediction systems around <strong>system components</strong> rather than the overall system</li>
+            <li>Important to leverage <strong>Domain Experts</strong> to identify which data subsets are most relevant</li>
+            <li>If no domain expert available, use <strong>Data Exploration and Feature Engineering</strong> techniques to identify relevant features</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section" style="margin-bottom:12px;">
+        <div class="section-header">
+          <div class="section-icon icon-orange">📏</div>
+          <h3>2. Sufficiency</h3>
+        </div>
+        <div class="section-body">
+          <ul class="notes-list orange">
+            <li>IoT provides high volumes of data, but under ML it's important to ensure the <strong>right type</strong> of data in the <strong>right level of abundance</strong></li>
+            <li>Too much data → too high "data resolution" → difficult to process</li>
+            <li>Analogy: Image resolution — too low can't interpret, too high is costly to render</li>
+            <li>Machine life-spans are in the order of <strong>years</strong> — dataset must observe the system throughout the degradation process leading to failure</li>
+            <li>For rare/uncaptured failure events → use <strong>statistical analysis methods</strong> to cope with imbalanced dataset</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section" style="margin-bottom:0;">
+        <div class="section-header">
+          <div class="section-icon icon-purple">✅</div>
+          <h3>3. Quality</h3>
+        </div>
+        <div class="section-body">
+          <ul class="notes-list purple">
+            <li>Ensure data is of high quality — "noise" must be minimized/eliminated</li>
+            <li>Use EDA (Exploratory Data Analysis) techniques to overcome <strong>Class Imbalance</strong></li>
+            <li>If one class (e.g., failure events) represents less than <strong>10%</strong> of the dataset → data is considered imbalanced</li>
+            <li>Various metrics can evaluate model effectiveness in case of class imbalance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Handling Dataset Imbalance -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-orange">⚖️</div>
+      <h3>Handling Dataset Imbalance – Data Sampling Techniques</h3>
+    </div>
+    <div class="section-body">
+
+      <table class="notes-table">
+        <thead><tr><th>Technique</th><th>Approach</th><th>Risk/Drawback</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong class="key">Random Oversampling</strong></td>
+            <td>Replicate a random sample of minority class occurrences across the training dataset → increases minority class instances</td>
+            <td><strong style="color:#ff7b72">Overfitting</strong> — classifier becomes too specific, high training accuracy but poor performance on unseen test data</td>
+          </tr>
+          <tr>
+            <td><strong class="key">Random Under-sampling</strong></td>
+            <td>Remove majority class data to balance lower occurrences of minority class</td>
+            <td>Classifier may miss important details → sub-optimal model performance</td>
+          </tr>
+          <tr>
+            <td><strong class="key">Hybrid Sampling</strong></td>
+            <td>Compromised approach — both oversample minority class AND undersample majority class simultaneously</td>
+            <td>Balances both risks from above methods</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Cost-sensitive Learning -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-red">💰</div>
+      <h3>Cost-Sensitive Learning Techniques</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box red">
+        Another method for handling data imbalance — incorporates <strong>"cost sensitivity"</strong> into machine learning algorithms. Assigns higher cost/weight to minority class examples during training.
+      </div>
+
+      <div class="two-col" style="margin-top:12px">
+        <div class="mini-card">
+          <h4>📐 Support Vector Machines (SVM)</h4>
+          <p>Assigns a <strong>cost of positive and negative examples</strong> during training. Comparable to a "weighted" pro-con list where negative examples hold more value than positive examples. Handles imbalanced data by weighting classes.</p>
+        </div>
+        <div class="mini-card">
+          <h4>🌳 Boosted Decision Trees</h4>
+          <p>An <strong>ensemble model</strong> leveraging gradient boosting to build a sequence of regression models where each model's output corrects the subsequent model. Leverages a composite of <strong>weaker prediction models</strong> to collectively improve overall prediction.</p>
+        </div>
+      </div>
+
+      <div class="q-box">
+        <p>📝 Practice Questions</p>
+        <ol>
+          <li>What are various types of Data Requirements?</li>
+          <li>What is meant by Relevancy in IoT Data?</li>
+          <li>What is meant by Sufficiency?</li>
+          <li>What is meant by Quality of Data?</li>
+          <li>How is Support Vector Machine used for cost-based data balancing?</li>
+          <li>How is Decision Tree Regression used for cost-based data balancing?</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div><!-- end lecture 4 -->
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- LECTURE 5: FEATURE ENGINEERING -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="module" id="l5">
+  <div class="module-label"><span class="module-num orange">Lecture 5</span></div>
+  <h2>Feature Engineering over IoT Data</h2>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-orange">🛠️</div>
+      <h3>What &amp; When</h3>
+    </div>
+    <div class="section-body">
+      <div class="def-box orange">
+        <strong>"Feature engineering is creating a large and diverse set of derived variables from the base data."</strong> The richer the set of derived variables, the better the model. Quality of model depends on characteristics generation / variable generation.
+      </div>
+
+      <p class="sub-label">Types of IoT Data</p>
+      <div class="two-col">
+        <div class="mini-card">
+          <h4>🔄 Dynamic Data (Streaming / Continuous)</h4>
+          <p>Continuous stream with very small time intervals (minutes, seconds, milliseconds).<br>
+          <strong style="color:#f0883e">Examples:</strong> Temperature, pressure, voltage, current, flow rate, velocity, acceleration, heart rate, blood pressure</p>
+        </div>
+        <div class="mini-card">
+          <h4>📋 Less Dynamic Data</h4>
+          <p>Pertains to the overall state or working condition of a system.<br>
+          <strong style="color:#f0883e">Examples:</strong> Type of input materials being processed by a machine; treatment regime administered to a patient</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aggregation -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue">🗃️</div>
+      <h3>Aggregation of Data for Feature Engineering</h3>
+    </div>
+    <div class="section-body">
+      <ul class="notes-list">
+        <li>Prior to creating features, consider the <strong>level of aggregation (across time)</strong> of the continuous streaming data</li>
+        <li><strong class="key">Atomic Level</strong> – Data used at the most granular level WITHOUT aggregation (e.g., every second)</li>
+        <li><strong class="key">Aggregated Level</strong> – Data aggregated over specific time windows to identify meaningful trends</li>
+      </ul>
+
+      <div class="two-col" style="margin-top:14px">
+        <div class="mini-card">
+          <h4>⚡ Atomic Level (No Aggregation) — Example</h4>
+          <p>Motor for a grinding machine: input particle size, temperature, flow rate data every second → predict optimal RPM within seconds/minutes.<br><br>
+          If RPM too high → overheating → grinder damage<br>
+          If RPM too low → decreased production rate<br><br>
+          <strong style="color:#58a6ff">Used when:</strong> Very short prediction windows (process control)</p>
+        </div>
+        <div class="mini-card">
+          <h4>📅 Aggregated Level — Example</h4>
+          <p>Car driven for a few years: predicting component lifetime (days, weeks, months).<br>Sensors produce data frequently, but data is aggregated over time to understand meaningful trends signifying impending failure.<br><br>
+          <strong style="color:#58a6ff">Used when:</strong> Longer prediction horizons; manufacturing equipment monitoring</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Summary:</strong> Short prediction windows → atomic level. Longer prediction windows → aggregated level features prove more productive. Many cases use both.
+      </div>
+    </div>
+  </div>
+
+  <!-- Time Windows -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-purple">🪟</div>
+      <h3>Selecting the Optimal Time Window</h3>
+    </div>
+    <div class="section-body">
+      <p style="color:var(--text-muted); font-size:14px; margin-bottom:12px;">Selecting the time window is often a critical consideration that drives the success of the feature engineering exercise in IoT. Four types:</p>
+
+      <table class="notes-table">
+        <thead><tr><th>Window Type</th><th>Description</th><th>Use Case / Note</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong class="key">Fixed Time Window</strong></td>
+            <td>Simplest window calculation. Aggregation over a specific, uniform time interval (e.g., 15 minutes across entire span)</td>
+            <td>Uniform, consistent analysis</td>
+          </tr>
+          <tr>
+            <td><strong class="key">Variable Time Window</strong></td>
+            <td>Window size determined by a specific number of event occurrences (e.g., at least 4 instances of engine switch-on/off in vehicle telematics)</td>
+            <td>Also helps treat missing values — define window as capturing at least N pings from sensor</td>
+          </tr>
+          <tr>
+            <td><strong class="key">Exponentially Expanding / Contracting</strong></td>
+            <td>Window size grows or shrinks exponentially over time</td>
+            <td>Adaptive to signal behavior</td>
+          </tr>
+          <tr>
+            <td><strong class="key">Overlapping Window</strong></td>
+            <td>Try different types and lengths of windows; features across various windows used for building the model — "let the data pick what's most predictive"</td>
+            <td>Most comprehensive; useful when optimal window is unknown</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top:12px">
+        <strong>Missing Values:</strong> Variable time windows help treat missing values (e.g., sensor not transmitting due to satellite connectivity issues) by aggregating over sufficient data thresholds.
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Generation -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">⚗️</div>
+      <h3>Feature Generation Methods</h3>
+    </div>
+    <div class="section-body">
+
+      <p style="color:var(--text-muted); font-size:14px; margin-bottom:16px;">Post aggregation, features are generated from the series (either aggregated or atomic). Five categories:</p>
+
+      <!-- 1. Basic Features -->
+      <div class="section" style="margin-bottom:12px">
+        <div class="section-header">
+          <div class="section-icon icon-blue">1️⃣</div>
+          <h3>Basic Features — Change, Rate of Change, Standardization</h3>
+        </div>
+        <div class="section-body">
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">If series values = X₁...Xₙ and time = t₁...tₙ:</p>
+          <div class="formula">Change:                  Cₘ₊₁ = (Xₘ₊₁ – Xₘ) / (tₘ₊₁ – tₘ)</div>
+          <div class="formula">Rate of Change:          RTₘ  = (Cₘ₊₁ – Cₘ) / (tₘ₊₁ – tₘ)</div>
+          <div class="formula">Growth / Decay:          Gₘ₊₁ = (Xₘ₊₁ – Xₘ) / Xₘ</div>
+          <div class="formula">Rate of Growth/Decay:    RGₘ  = (Gₘ₊₁ – Gₘ) / (tₘ₊₁ – tₘ)</div>
+          <div class="formula">Moving Average:          Average of (Xₘ₋ₚ to Xₘ)</div>
+          <div class="formula">Moving Std Dev:          Std Dev of (Xₘ₋ₚ to Xₘ)</div>
+          <div class="formula">Relative Average:        Moving Average / Global Average</div>
+          <div class="formula">Relative Std Dev:        Moving Std Dev / Global Std Dev</div>
+          <ul class="notes-list" style="margin-top:10px">
+            <li>Count of values above or below a threshold value</li>
+            <li>Ratio of changes, growth rate etc. with standard deviation</li>
+            <li>Features involving trend of values across various aggregation windows</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2. Relationship Features -->
+      <div class="section" style="margin-bottom:12px">
+        <div class="section-header">
+          <div class="section-icon icon-green">2️⃣</div>
+          <h3>Features Based on Relationships</h3>
+        </div>
+        <div class="section-body">
+          <ul class="notes-list green">
+            <li>Leverages data from multiple sensors measuring similar or dissimilar quantities</li>
+            <li>Natural relationships may exist between multiple signals; deviations from expected relationship may indicate operating condition changes or breakdowns</li>
+            <li><strong class="key">Method:</strong> Build a regression model (e.g., temperature as Y; RPM, particle size, flow rate as Xs) → compute error series → under "un-natural" conditions, error or its std dev shoots up</li>
+            <li><strong class="key">Grinder Example:</strong> 16 thermocouples + RPM + flow rates + particle size; temperature expected as a function of RPM and flow rates — deviations from expected indicate hard impurities in material</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3. Higher Order Statistics -->
+      <div class="section" style="margin-bottom:12px">
+        <div class="section-header">
+          <div class="section-icon icon-orange">3️⃣</div>
+          <h3>Features Based on Higher Order Statistics (Moments)</h3>
+        </div>
+        <div class="section-body">
+          <ul class="notes-list orange">
+            <li>Usually <strong>moments</strong> (mean, variance, skewness, kurtosis) calculated within the aggregation window</li>
+            <li>For <strong>non-Gaussian series</strong> → use <strong>cumulants</strong> rather than moments for information about the distribution</li>
+            <li>Cumulants defined using the <strong>cumulant-generating function</strong> = natural logarithm of the moment-generating function</li>
+            <li>Till 3rd cumulant: value of moment = cumulant; from 4th onwards, cumulants ≠ moments</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4. Outlier Detection -->
+      <div class="section" style="margin-bottom:12px">
+        <div class="section-header">
+          <div class="section-icon icon-purple">4️⃣</div>
+          <h3>Features Based on Outlier Detection / Anomaly Detection / Fault Detection</h3>
+        </div>
+        <div class="section-body">
+          <ul class="notes-list purple">
+            <li>Detect outliers and use their presence within an aggregation window as features</li>
+            <li><strong class="key">Kalman Filter</strong> – Most popular method for outlier detection</li>
+            <li><strong class="key">PCA Method</strong> – Create principal component analysis using existing features; identify distance of each point from origin of multi-dimensional space; points ≥ 3 std deviations from origin → outlier</li>
+            <li><strong class="key">Cook Distance</strong> – Used in regression-type approach for outlier detection</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 5. Series Transformation -->
+      <div class="section" style="margin-bottom:0">
+        <div class="section-header">
+          <div class="section-icon icon-red">5️⃣</div>
+          <h3>Features Based on Series Transformation</h3>
+        </div>
+        <div class="section-body">
+          <ul class="notes-list red">
+            <li>Continuous streaming data treated as a <strong>signal in the time domain</strong></li>
+            <li>Mathematical transformations decompose this signal into simpler functions → analyzed across windows to identify changes in pattern</li>
+          </ul>
+          <p class="sub-label" style="margin-top:12px">Common Transformations</p>
+          <table class="notes-table">
+            <thead><tr><th>Transform</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong class="key">Fast Fourier Transform (FFT)</strong></td><td>Transforms signal from <strong>time domain → frequency domain</strong>. Decomposes into sinusoidal functions of the form A·Cos(ωt) + Bj·Sin(ωt). Calculates amplitude, phase, and frequencies. Intuitively: like breaking music into component notes. Most commonly used.</td></tr>
+              <tr><td><strong class="key">Hilbert Huang Transform</strong></td><td>Adaptive method for non-linear/non-stationary signals</td></tr>
+              <tr><td><strong class="key">Wigner Ville Distribution</strong></td><td>Time-frequency representation</td></tr>
+              <tr><td><strong class="key">Wavelet Transformation</strong></td><td>Multi-resolution analysis of signals</td></tr>
+            </tbody>
+          </table>
+          <div class="callout" style="margin-top:12px">
+            <strong>FFT for Feature Engineering:</strong> Compute FFT for each aggregation window → get frequencies and amplitudes of component sinusoids → use amplitude series for further feature generation. A new frequency in any window may indicate anomalous behavior.
+          </div>
+        </div>
+      </div>
+
+      <div class="q-box" style="margin-top:14px">
+        <p>📝 Practice Questions</p>
+        <ol>
+          <li>List the various feature generation techniques.</li>
+          <li>Mention some of the Basic features.</li>
+          <li>How are Features based on relationships generated?</li>
+          <li>What is meant by Features based on higher order statistics?</li>
+          <li>What methods are used for outlier detection-based feature generation?</li>
+          <li>Mention the commonly used methods for series transformation-based features.</li>
+          <li>What is meant by atomic level data?</li>
+          <li>What is meant by aggregated data?</li>
+          <li>What are the types of data aggregation windows possible?</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end lecture 5 -->
+
+<!-- FOOTER -->
+<div style="text-align:center; padding:30px 0 10px; color:var(--text-dim); font-size:12px; border-top:1px solid var(--border); margin-top:20px;">
+  IoT Analytics · Module 4, Lecture 4 &amp; 5 · Dr. Vikash · JIIT Noida
+</div>
+
+</div><!-- end wrapper -->
+</body>
+</html>
